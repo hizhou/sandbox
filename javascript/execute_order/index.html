@@ -1,0 +1,33 @@
+<p>Please waiting for the output ... (5 seconds)</p>
+
+<script type="text/javascript">
+function println(content) {
+	document.write(content + "<br>");
+}
+</script>
+
+<script type="text/javascript" src="script.php?action=print&sleep=5&content=1"></script>
+<script type="text/javascript" src="script.php?action=print&sleep=4&content=2"></script>
+<script type="text/javascript" src="script.php?action=print&sleep=3&content=3"></script>
+<script type="text/javascript" src="script.php?action=print&sleep=2&content=4"></script>
+<script type="text/javascript" src="script.php?action=print&sleep=1&content=5"></script>
+
+
+<script type="text/javascript">
+var code = 'var theNumber=8;function theFunction(){println(7)}println(8);';
+document.write('<script type="text/javascript" src="script.php?action=code&content=' + code + '"><\/script>');
+</script>
+<script type="text/javascript">
+document.write('<script type="text/javascript">');
+document.write('println(6);')
+document.write('theFunction();');
+document.write('println(theNumber);');
+document.write('<\/script>');
+</script>
+<script type="text/javascript">
+println(9);
+</script>
+
+<p>
+The correct order is from 1 to 9
+</p>
