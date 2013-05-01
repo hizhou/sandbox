@@ -18,7 +18,10 @@ if ($action == 'print') {
 	
 	echo "document.write('$content <br>')";
 } elseif ($action == 'code') {
+	$sleep = $request->getQuery('sleep', 0);
 	$content = $request->getQuery('content');
+	
+	if ($sleep > 0) sleep($sleep);
 	
 	echo $content;
 }
