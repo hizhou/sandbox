@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+</head>
+
+<body>
+
+
+<script>
+
+//1
+if ('0') {
+	console.log(true);
+} else {
+	console.log(false);
+}
+
+//2
+function getName() {
+	return 'yyy';
+}
+
+var ob = {
+		firstName: 'xxx',
+		getName: function() {
+			return this.firstName;
+		},
+		other: function() {
+			var ff = function () {
+				console.log(this.getName());
+			}
+			ff();
+		}
+}
+ob.other();
+
+//3
+console.clear();
+
+//Object.prototype.append = 'bbb';
+
+function xx() {
+	this.name = 'aaa';
+}
+console.log(xx()); //undefined
+console.log(name); //this is the: window
+
+
+//4
+console.clear();
+
+//Object.prototype.append = 'appended original attr in Object';
+
+function foo() {
+	//this.name = 'name is foo';
+}
+
+console.dir(foo);
+var newfoo = new foo();
+console.dir(newfoo);
+
+//5
+console.clear();
+
+var arr = [];
+console.log(arr.length);
+arr[1000] = 1;
+console.log(arr.length);
+arr.length = 2;
+console.log(arr);
+
+
+
+</script>
+</body>
+</html>
