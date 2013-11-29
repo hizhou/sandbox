@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>实时聊天</title>
+<script src="http://www.lupa.cn/public/js/jquery-1.9.1.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+  <h3>聊天室</h3>
+  
+  <div data-role="chatContainer" style="border: 1px dotted #666; margin: 20px 0;">
+    
+  </div>
+  <div style="display:none;">
+    <input name="maxId" value="<?php echo $maxId; ?>">
+    
+    <div data-role="template" >
+    <div style="margin: 10px;">
+      <p>
+        <span data-role="date"></span>
+        <span data-role="ip"></span> 说：
+        <span data-role="message"></span>
+      </p>
+    </div>
+    </div>
+  </div>
+
+  <div data-role="form">
+    <textarea cols="70" rows="4" name="content"></textarea>
+    <br>
+    <input type="button" value="发送" data-role="send">
+  </div>
+
+
+<script>
+$(function() {
+	$('input[data-role="send"]').click(function() {
+		var element = $('textarea[name="content"]');
+		if ('' == element.val()) {
+			alert('请填写内容');
+			element.focus();
+			return ;
+		}
+		
+		$.post('./chat.php?action=commit', {message: element.val()}, function(response){
+			if (!response.success) {
+				alert(response.message);
+				return ;
+			}
+			
+			element.val('');
+			element.focus();
+			
+		}, 'json');
+	});
+	
+	var container = $('div[data-role="chatContainer"]');
+	var handler = function(response) {
+		//console.log(response);
+
+		if (response && response.number > 0) {
+    		var template = $('div[data-role="template"] div').clone();
+    		$.each(response.messages, function(index, row) {
+    			template.find('span[data-role="date"]').html(row.timeline);
+    			template.find('span[data-role="ip"]').html(row.ip);
+    			template.find('span[data-role="message"]').html(row.message);
+    		});
+    		
+    		container.append(template);
+    		
+    		$('input[name="maxId"]').val(response.maxId);
+		}
+		
+		$.post('./chat.php?action=polling', {after: $('input[name="maxId"]').val()}, handler, 'json');
+	}
+	$.post('./chat.php?action=polling', {after: $('input[name="maxId"]').val()}, handler, 'json');
+	
+	
+});
+</script>
+</body>
+</html>
